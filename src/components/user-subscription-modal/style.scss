@@ -1,0 +1,26 @@
+.subscription-modal {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+
+  &__container {
+    pointer-events: all;
+    padding: 10px;
+    z-index: 10;
+    border: 1px solid rgb(224, 224, 230);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  &__button {
+    margin-top: 10px;
+  }
+}
