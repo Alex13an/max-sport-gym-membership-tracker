@@ -1,50 +1,58 @@
 import { ref } from "vue";
-import { TableField } from "./types";
-import { v4 as uuidv4 } from 'uuid';
-import moment from 'moment'
+import { DBTableField, TableField } from "./types";
+import { v4 as uuidv4 } from "uuid";
+import moment from "moment";
 
-const tableFields = ref<TableField[]>([
-  {
-    key: 1,
-    name: 'Полвонов Шохрух',
-    start: moment('1/3/25'),
-    end: moment('2/3/25'),
-    formattedStart: moment('1/3/25').format('DD/MM/YYYY'),
-    formattedEnd: moment('2/3/25').format('DD/MM/YYYY'),
-    comment: 'Тренер Софийулла',
-    status: true,
-  },
-  {
-    key: 2,
-    name: 'Полвонов Шохрух 2',
-    start: moment('12/3/24'),
-    end: moment('1/3/25'),
-    formattedStart: moment('12/3/24').format('DD/MM/YYYY'),
-    formattedEnd: moment('1/3/25').format('DD/MM/YYYY'),
-    comment: 'Тренер Софийулла',
-    status: true,
-  },
-]);
+const tableFields = ref<TableField[]>([]);
 
 export function useSubscriptionTable() {
-  function addUser(name: string, comment: string) {
-    const start = moment()
-    const end = start.clone().add(1, 'M')
+  async function addUser(name: string, comment: string) {
+    const start = moment();
+    const end = start.clone().add(1, "M");
 
-    tableFields.value = [...tableFields.value, {
-      key: uuidv4(),
+    await window.sqlite.addSubscription(
       name,
-      comment,
-      status: true,
-      start,
-      formattedStart: start.format('DD/MM/YYYY'),
-      end,
-      formattedEnd: end.format('DD/MM/YYYY'),
-    }]
+      start.valueOf(),
+      end.valueOf(),
+      comment
+    );
+
+    tableFields.value = [
+      {
+        key: uuidv4(),
+        name,
+        comment,
+        status: true,
+        start: start.valueOf(),
+        formattedStart: start.format("DD/MM/YYYY"),
+        end: end.valueOf(),
+        formattedEnd: end.format("DD/MM/YYYY"),
+      },
+      ...tableFields.value,
+    ];
+  }
+
+  async function updateTableFields() {
+    const data: DBTableField[] = await window.sqlite.readAllSubscriptions();
+
+    tableFields.value = [
+      ...tableFields.value,
+      ...data.map((user) => ({
+        key: user.id,
+        name: user.name,
+        comment: user.comment,
+        status: true,
+        start: user.start_date,
+        formattedStart: moment(user.start_date).format("DD/MM/YYYY"),
+        end: user.end_date,
+        formattedEnd: moment(user.end_date).format("DD/MM/YYYY"),
+      })),
+    ];
   }
 
   return {
     tableFields,
+    updateTableFields,
     addUser,
   };
 }

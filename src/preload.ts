@@ -5,8 +5,9 @@
 // code. You can also put them in separate files and import them here.
 
 import { contextBridge } from "electron";
-import { readAllSubscriptions } from "./database/subscriptionsManager";
+import { readAllSubscriptions, addSubscription } from './database/subscriptionsManager'
 
 contextBridge.exposeInMainWorld("sqlite", {
   readAllSubscriptions,
+  addSubscription,
 });

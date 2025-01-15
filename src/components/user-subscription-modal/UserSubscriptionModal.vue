@@ -9,12 +9,12 @@ const comment = ref("");
 const { isModalVisible, closeModal } = useModal();
 const { addUser } = useSubscriptionTable();
 
-function addNewUser() {
+async function addNewUser() {
   if (!name) {
     return;
   }
 
-  addUser(name.value, comment.value);
+  await addUser(name.value, comment.value);
   closeModal();
 }
 </script>

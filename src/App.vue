@@ -1,19 +1,14 @@
 <script setup>
-import UserSubscriptionTable from './components/user-subscription-table/UserSubscriptionTable.vue';
-import UserSubscriptionModal from './components/user-subscription-modal/UserSubscriptionModal.vue';
+import UserSubscriptionTable from "./components/user-subscription-table/UserSubscriptionTable.vue";
+import UserSubscriptionModal from "./components/user-subscription-modal/UserSubscriptionModal.vue";
+import { onMounted } from "vue";
+import { useSubscriptionTable } from "./composables/use-subscription-table/useSubscriptionTable";
 
-import { onMounted } from 'vue'
-
-
-async function getUsersFromDb() {
-  const data = await window.sqlite.readAllSubscriptions ()
-  return data
-}
+const { updateTableFields } = useSubscriptionTable();
 
 onMounted(async () => {
-  const res = await getUsersFromDb()
-  console.log('RES', res)
-})
+  updateTableFields();
+});
 </script>
 
 <template>

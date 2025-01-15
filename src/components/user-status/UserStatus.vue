@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import { Moment } from "moment";
 import { computed } from "vue";
 import moment from "moment";
 
 const props = defineProps<{
   status: boolean;
-  endDate: Moment;
+  endDate: number;
 }>();
 
 const status = computed(() => {
   // TODO update this shit
   const now = moment();
-  const diff = props.endDate.diff(now);
+  const diff = moment(props.endDate).diff(now);
 
   if (diff > 0) {
     return true;
