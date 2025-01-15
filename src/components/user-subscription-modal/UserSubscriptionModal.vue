@@ -15,13 +15,14 @@ function addNewUser() {
   }
 
   addUser(name.value, comment.value);
-  closeModal()
+  closeModal();
 }
 </script>
 
 <template>
   <div class="subscription-modal">
     <div class="subscription-modal__container" v-if="isModalVisible">
+      <button class="subscription-modal__close" @click="closeModal">✕</button>
       <div class="subscription-modal__wrapper">
         <span class="subscription-modal__label"> ФИO </span>
         <NInput type="text" placeholder="Имя клиента" v-model:value="name" />

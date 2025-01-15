@@ -1,5 +1,7 @@
 import type { DataTableColumns } from "naive-ui";
 import { TableField } from "src/composables/use-subscription-table/types";
+import { h } from "vue";
+import UserStatus from "../user-status/UserStatus.vue";
 
 export const tableColumns: DataTableColumns<TableField> = [
   {
@@ -18,14 +20,11 @@ export const tableColumns: DataTableColumns<TableField> = [
     title: "Статус",
     key: "status",
     render(row) {
-      const currentStatus = row.status
-      
-      if (currentStatus) {
-        return 'Активен'
-      } else {
-        return 'Неактивен'
-      }
-    }
+      return h(UserStatus, {
+        status: row.status,
+        endDate: row.end,
+      });
+    },
   },
   {
     title: "Комментарий",

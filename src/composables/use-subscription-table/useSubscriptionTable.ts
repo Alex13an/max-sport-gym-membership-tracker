@@ -14,6 +14,16 @@ const tableFields = ref<TableField[]>([
     comment: 'Тренер Софийулла',
     status: true,
   },
+  {
+    key: 2,
+    name: 'Полвонов Шохрух 2',
+    start: moment('12/3/24'),
+    end: moment('1/3/25'),
+    formattedStart: moment('12/3/24').format('DD/MM/YYYY'),
+    formattedEnd: moment('1/3/25').format('DD/MM/YYYY'),
+    comment: 'Тренер Софийулла',
+    status: true,
+  },
 ]);
 
 export function useSubscriptionTable() {

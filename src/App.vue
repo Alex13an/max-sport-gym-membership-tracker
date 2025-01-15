@@ -2,7 +2,18 @@
 import UserSubscriptionTable from './components/user-subscription-table/UserSubscriptionTable.vue';
 import UserSubscriptionModal from './components/user-subscription-modal/UserSubscriptionModal.vue';
 
-console.log('👋 This message is being logged by "App.vue", included via Vite');
+import { onMounted } from 'vue'
+
+
+async function getUsersFromDb() {
+  const data = await window.sqlite.readAllSubscriptions ()
+  return data
+}
+
+onMounted(async () => {
+  const res = await getUsersFromDb()
+  console.log('RES', res)
+})
 </script>
 
 <template>
