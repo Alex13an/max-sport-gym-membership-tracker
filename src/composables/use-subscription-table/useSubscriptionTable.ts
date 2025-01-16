@@ -1,6 +1,5 @@
 import { ref } from "vue";
 import { DBTableField, TableField } from "./types";
-import { v4 as uuidv4 } from "uuid";
 import moment from "moment";
 
 const tableFields = ref<TableField[]>([]);
@@ -10,7 +9,7 @@ export function useSubscriptionTable() {
     const start = moment();
     const end = start.clone().add(1, "M");
 
-    await window.sqlite.addSubscription(
+    const id = await window.sqlite.addSubscription(
       name,
       start.valueOf(),
       end.valueOf(),
@@ -19,7 +18,7 @@ export function useSubscriptionTable() {
 
     tableFields.value = [
       {
-        key: uuidv4(),
+        key: id,
         name,
         comment,
         status: true,
@@ -50,9 +49,47 @@ export function useSubscriptionTable() {
     ];
   }
 
+  async function updateTableComment(id: number, comment: string) {
+    await window.sqlite.updateSubscriptionComment(id, comment);
+
+    tableFields.value = tableFields.value.map((value) => {
+      if (value.key !== id) {
+        return value;
+      }
+      return {
+        ...value,
+        comment,
+      };
+    });
+  }
+
+  async function updateMembership(id: number) {
+    // TWEAK, play with membership
+    const start = moment();
+    const end = start.clone().add(1, "M");
+
+    await window.sqlite.updateSubscription(id, start.valueOf(), end.valueOf());
+
+    tableFields.value = tableFields.value.map((value) => {
+      if (value.key !== id) {
+        return value;
+      }
+      return {
+        ...value,
+        status: true,
+        start: start.valueOf(),
+        formattedStart: start.format("DD/MM/YYYY"),
+        end: end.valueOf(),
+        formattedEnd: end.format("DD/MM/YYYY"),
+      };
+    });
+  }
+
   return {
     tableFields,
     updateTableFields,
+    updateTableComment,
+    updateMembership,
     addUser,
   };
 }

@@ -1,7 +1,13 @@
 .user-status {
   color: red;
+  cursor: pointer;
+  min-width: 150px;
 
   &__active {
     color: green;
+  }
+
+  &__ending {
+    color: orange;
   }
 }

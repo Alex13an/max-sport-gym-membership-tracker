@@ -1,3 +1,10 @@
 .subscriptions-table {
   padding: 30px;
+
+  &__title {
+    display: flex;
+    width: 300px;
+    align-items: center;
+    column-gap: 10px;
+  }
 }

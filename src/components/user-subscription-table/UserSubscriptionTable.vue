@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { NDataTable } from "naive-ui";
+import { NDataTable, NButton } from "naive-ui";
 import { tableColumns } from "./types";
 import { useModal } from "../user-subscription-modal/use-modal";
 import { useSubscriptionTable } from "../../composables/use-subscription-table/useSubscriptionTable";
@@ -14,7 +14,10 @@ const { toggleModal } = useModal();
 
 <template>
   <div class="subscriptions-table">
-    <button @click="toggleModal">+</button>
+    <div class="subscriptions-table__title">
+      <NButton type="success" @click="toggleModal">+</NButton>
+      <h2>Абонементы</h2>
+    </div>
     <NDataTable
       class="subscriptions-table__table"
       pagination-behavior-on-filter="first"
