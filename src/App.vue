@@ -7,11 +7,12 @@ import UserSubscriptionModal from "./components/user-subscription-modal/UserSubs
 import StatusModal from "./components/status-modal/StatusModal.vue";
 import { useGlobalTime } from "./composables/use-global-time/useGlobalTime";
 
-const { updateTableFields } = useSubscriptionTable();
+const { updateTableFields, updateTableCount } = useSubscriptionTable();
 useGlobalTime()
 
 onMounted(async () => {
-  updateTableFields();
+  await updateTableCount()
+  await updateTableFields();
 });
 </script>
 

@@ -1,10 +1,23 @@
 .subscriptions-table {
   padding: 30px;
+  display: flex;
+  flex-direction: column;
 
   &__title {
     display: flex;
     width: 300px;
     align-items: center;
     column-gap: 10px;
+  }
+
+  [data-col-key="name"] {
+    width: 300px;
+  }
+
+  &__pagination {
+    margin-top: 10px;
+    display: flex;
+    column-gap: 4px;
+    margin-left: auto;
   }
 }

@@ -3,7 +3,7 @@ import { useCommentModal } from "../user-comment-modal/use-comment-modal";
 
 const props = defineProps<{
   userId: number;
-  comment: string;
+  comment?: string;
 }>();
 
 const { showModal } = useCommentModal();

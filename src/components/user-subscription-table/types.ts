@@ -3,11 +3,18 @@ import { TableField } from "src/composables/use-subscription-table/types";
 import { h } from "vue";
 import UserStatus from "../user-status/UserStatus.vue";
 import UserComment from "../user-comment/UserComment.vue";
+import UserName from "../user-name/UserName.vue";
 
 export const tableColumns: DataTableColumns<TableField> = [
   {
     title: "ФИО",
     key: "name",
+    render(row) {
+      return h(UserName, {
+        userId: row.key,
+        userName: row.name,
+      });
+    },
   },
   {
     title: "Дата покупки",
