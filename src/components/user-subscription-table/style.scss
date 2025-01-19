@@ -20,4 +20,10 @@
     column-gap: 4px;
     margin-left: auto;
   }
+
+  &__wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }

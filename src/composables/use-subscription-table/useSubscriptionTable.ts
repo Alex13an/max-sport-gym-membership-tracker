@@ -10,15 +10,15 @@ const tableCount = reactive({
   firstId: 0,
   lastId: 0,
 });
+const searchValue = ref('')
 
 export function useSubscriptionTable() {
   async function updateTableCount() {
     const count = await window.sqlite.getSubscriptionsCount();
 
-    tableCount.count = count.count,
-    tableCount.firstId = count.firstId,
-    tableCount.lastId = count.lastId,
-    console.log('COUNT', count.firstId, count.lastId)
+    tableCount.count = count.count
+    tableCount.firstId = count.firstId
+    tableCount.lastId = count.lastId
   }
 
   async function updateTableFields(currentId?: number, back?: boolean) {
@@ -29,9 +29,30 @@ export function useSubscriptionTable() {
       data = await window.sqlite.getSubscriptions(currentId || (tableCount.lastId + 1));
     }
 
-    currentIdFirst.value = data[0].id + 1
-    currentIdLast.value = data[data.length - 1].id
+    currentIdFirst.value = (data[0]?.id || 0) + 1
+    currentIdLast.value = data[data.length - 1]?.id || 0
 
+    tableFields.value = [
+      ...data.map((user) => ({
+        key: user.id,
+        name: user.name,
+        comment: user.comment,
+        status: true,
+        start: user.start_date,
+        formattedStart: moment(user.start_date).format("DD/MM/YYYY"),
+        end: user.end_date,
+        formattedEnd: moment(user.end_date).format("DD/MM/YYYY"),
+      })),
+    ];
+  }
+
+  async function searchTableFields() {
+    if (!searchValue.value) {
+      await updateTableFields()
+      return
+    }
+
+    const data: DBTableField[] = await window.sqlite.findSubscriptions(searchValue.value)
     tableFields.value = [
       ...data.map((user) => ({
         key: user.id,
@@ -135,6 +156,7 @@ export function useSubscriptionTable() {
 
   return {
     ...toRefs(tableCount),
+    searchValue,
     tableFields,
     updateTableFields,
     updateTableComment,
@@ -146,5 +168,6 @@ export function useSubscriptionTable() {
     paginateBack,
     reloadTable,
     deleteUserFromTable,
+    searchTableFields,
   };
 }

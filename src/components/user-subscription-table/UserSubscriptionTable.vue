@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { NDataTable, NButton, NInput, NIcon } from "naive-ui";
+import { NDataTable, NButton } from "naive-ui";
 import { tableColumns } from "./types";
 import { useModal } from "../user-subscription-modal/use-modal";
 import { useSubscriptionTable } from "../../composables/use-subscription-table/useSubscriptionTable";
 import ExcelReader from "../excel-reader/ExcelReader.vue";
 import { computed } from "vue";
+import UserSubscriptionSearch from "../user-subscription-search/UserSubscriptionSearch.vue";
 
-const { tableFields, paginateForward, paginateBack, firstId, lastId, count } =
+const { tableFields, paginateForward, paginateBack, firstId, lastId, count, searchValue } =
   useSubscriptionTable();
 const { toggleModal } = useModal();
 
@@ -26,23 +27,24 @@ const isForwardEnabled = computed(
       <h2>Абонементы</h2>
     </div>
     <ExcelReader />
+    <UserSubscriptionSearch />
     
-    <NInput type="text" placeholder="Поиск">
-      <template #prefix>
-        <NIcon :component="" />
-      </template>
-    </NInput>
     <NDataTable
       class="subscriptions-table__table"
       pagination-behavior-on-filter="first"
       :columns="tableColumns"
       :data="tableFields"
     />
-    <div class="subscriptions-table__pagination" v-if="count > 10">
-      <NButton :disabled="!isBackEnabled" @click="paginateBack"> ‹ </NButton>
-      <NButton :disabled="!isForwardEnabled" @click="paginateForward">
-        ›
-      </NButton>
+    <div v-if="!searchValue" class="subscriptions-table__wrapper">
+      <div class="subscriptions-table__counter">
+        {{ `Всего абонементов: ${count}` }}
+      </div>
+      <div class="subscriptions-table__pagination" v-if="count > 10">
+        <NButton :disabled="!isBackEnabled" @click="paginateBack"> ‹ </NButton>
+        <NButton :disabled="!isForwardEnabled" @click="paginateForward">
+          ›
+        </NButton>
+      </div>
     </div>
   </div>
 </template>

@@ -14,6 +14,7 @@ import {
   getSubscriptionsBackwards,
   getSubscriptionsCount,
   deleteSubscription,
+  findSubscriptions,
 } from "./database/subscriptionsManager";
 
 contextBridge.exposeInMainWorld("sqlite", {
@@ -25,4 +26,5 @@ contextBridge.exposeInMainWorld("sqlite", {
   updateSubscription,
   getSubscriptionsBackwards,
   deleteSubscription,
+  findSubscriptions,
 });

@@ -14,7 +14,7 @@ export const readAllSubscriptions = () => {
 
 export const getSubscriptions = (currentId: number) => {
   try {
-    const query = `SELECT * FROM subscriptions WHERE id < ${currentId} ORDER BY id DESC LIMIT 10;`;
+    const query = `SELECT * FROM subscriptions WHERE id < ${currentId} ORDER BY id DESC LIMIT 25;`;
     const readQuery = db.prepare(query);
     const rowList = readQuery.all();
     return rowList;
@@ -26,7 +26,7 @@ export const getSubscriptions = (currentId: number) => {
 
 export const getSubscriptionsBackwards = (currentId: number) => {
   try {
-    const query = `SELECT * FROM subscriptions WHERE id >= ${currentId} ORDER BY id LIMIT 10;`;
+    const query = `SELECT * FROM subscriptions WHERE id >= ${currentId} ORDER BY id LIMIT 25;`;
     const readQuery = db.prepare(query);
     const rowList = readQuery.all().reverse();
     return rowList;
@@ -51,9 +51,9 @@ export const getSubscriptionsCount = () => {
     const lastId = readLastElementQuery.all();
 
     return {
-      count: (count[0] as any).count,
-      firstId: (firstId[0] as any).id,
-      lastId: (lastId[0] as any).id,
+      count: (count[0] as any)?.count || 0,
+      firstId: (firstId[0] as any)?.id || 0,
+      lastId: (lastId[0] as any)?.id || 0,
     };
   } catch (err) {
     console.error(err);
@@ -145,3 +145,15 @@ export const deleteSubscription = (id: number) => {
     throw err;
   }
 };
+
+export const findSubscriptions = (substring: string) => {
+  try {
+    const query = `SELECT * FROM subscriptions WHERE name LIKE '%${substring}%'`;
+    const readQuery = db.prepare(query);
+    const rowList = readQuery.all();
+    return rowList;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+}

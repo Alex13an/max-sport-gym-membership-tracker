@@ -10,7 +10,7 @@ db.pragma("journal_mode = WAL");
 const createTable = db.prepare(`
   CREATE TABLE IF NOT EXISTS subscriptions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
+    name TEXT NOT NULL COLLATE NOCASE,
     comment TEXT,
     start_date NUMBER NOT NULL,
     end_date NUMBER NOT NULL

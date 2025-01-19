@@ -1,64 +1,21 @@
 <script setup lang="ts">
-import { onMounted, onBeforeUnmount, ref } from "vue";
-import readXlsxFile from "read-excel-file";
-import { useSubscriptionTable } from "../../composables/use-subscription-table/useSubscriptionTable";
-const readerRef = ref<HTMLInputElement | null>(null);
-const { addUserFromTable, reloadTable } = useSubscriptionTable()
+import { NButton } from 'naive-ui'
+import {useExcelReader} from './use-excel-reader';
+import {useExcelWriter} from './use-excel-writer';
 
-const schema = {
-  'Фамилия и имя': {
-    prop: 'name',
-    type: String,
-  },
-  'Дата покупки': {
-    prop: 'startDate',
-    type: Date,
-  },
-  'Тип посещения': {
-    prop: 'membershipType',
-    type: String,
-  },
-  'Срок действия': {
-    prop: 'endDate',
-    type: Date,
-  },
-  'Статус': {
-    prop: 'status',
-    type: String,
-  },
-  'Комментарий': {
-    prop: 'comment',
-    type: String,
-  },
-}
-
-async function readExcelFile() {
-  readXlsxFile(readerRef.value.files[0], { schema }).then(async (rows) => {
-    for (const row of rows.rows) {
-      if (row.name && row.endDate && row.startDate) {
-        await addUserFromTable(row.name, row.startDate, row.endDate, row.comment)
-      }
-    }
-    await reloadTable()
-  })
-}
-
-onMounted(() => {
-  if (!readerRef.value) {
-    return
-  }
-
-  readerRef.value.addEventListener('change', readExcelFile)
-})
-
-onBeforeUnmount(() => {
-  readerRef.value.removeEventListener('change', readExcelFile)
-})
+const { readerRef } = useExcelReader()
+const { writeExcel } = useExcelWriter()
 </script>
 
 <template>
   <div class="excel-reader">
-    <input ref="readerRef" type="file" id="input" />
+    <NButton type="primary" @click="writeExcel">
+      Сохранить таблицу
+    </NButton>
+    <div class="excel-reader__wrapper">
+      <label for="sheet">Загрузить excel таблицу</label>
+      <input ref="readerRef" type="file" id="input" />
+    </div>
   </div>
 </template>
 
