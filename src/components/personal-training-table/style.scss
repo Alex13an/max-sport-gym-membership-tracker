@@ -1,0 +1,30 @@
+.personal-training-table {
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &__label {
+    justify-self: center;
+    margin-left: -50px;
+  }
+
+  &__container {
+    position: relative;
+  }
+
+  &__add {
+    position: absolute;
+    right: 10px;
+    top: 8px;
+  }
+
+  &__no {
+    width: 50px;
+  }
+
+  &__delete {
+    width: 10px;
+  }
+}

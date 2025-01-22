@@ -16,6 +16,7 @@ import {
   deleteSubscription,
   findSubscriptions,
 } from "./database/subscriptionsManager";
+import { getPersonalCount, getPersonal, addPersonal, deletePersonal } from './database/personalManager'
 
 contextBridge.exposeInMainWorld("sqlite", {
   readAllSubscriptions,
@@ -27,4 +28,8 @@ contextBridge.exposeInMainWorld("sqlite", {
   getSubscriptionsBackwards,
   deleteSubscription,
   findSubscriptions,
+  getPersonalCount,
+  getPersonal,
+  addPersonal,
+  deletePersonal,
 });
