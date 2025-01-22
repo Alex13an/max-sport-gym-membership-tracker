@@ -10,7 +10,7 @@ const { isModalVisible, closeModal } = useModal();
 const { addUser } = useSubscriptionTable();
 
 async function addNewUser() {
-  if (!name) {
+  if (!name.value) {
     return;
   }
 

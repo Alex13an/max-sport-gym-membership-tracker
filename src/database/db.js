@@ -26,3 +26,22 @@ const personalTable = db.prepare(`
   );
 `);
 personalTable.run();
+
+const productsTable = db.prepare(`
+  CREATE TABLE IF NOT EXISTS products (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    label TEXT NOT NULL,
+    price NUMBER NO NULL
+  );
+`);
+productsTable.run();
+
+const supplyTable = db.prepare(`
+  CREATE TABLE IF NOT EXISTS supply (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    product_id NUMBER NOT NULL,
+    amount NUMBER NO NULL,
+    sold NUMBER
+  );
+`);
+supplyTable.run();

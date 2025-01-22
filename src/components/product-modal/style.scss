@@ -1,4 +1,4 @@
-.status-modal {
+.product-modal {
   position: fixed;
   left: 0;
   right: 0;
@@ -11,43 +11,29 @@
 
   &__container {
     pointer-events: all;
-    padding: 10px 20px;
+    padding: 10px;
     z-index: 10;
     border: 1px solid rgb(224, 224, 230);
     border-radius: 4px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
     position: relative;
     background: white;
   }
 
+  &__button {
+    margin-top: 10px;
+  }
+
   &__close {
     position: absolute;
-    right: 5px;
+    right: 10px;
     top: 15px;
     z-index: 10;
     background: none;
     line-height: 0;
     border: none;
     cursor: pointer;
-  }
-
-  &__wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px 0;
-  }
-
-  &__title {
-    font-weight: normal;
-    font-size: 16px;
-    margin: 0;
-  }
-
-  &__remaining {
-    margin-bottom: 10px;
   }
 }

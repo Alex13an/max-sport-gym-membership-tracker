@@ -8,6 +8,7 @@ import UserSubscriptionModal from "./components/user-subscription-modal/UserSubs
 import StatusModal from "./components/status-modal/StatusModal.vue";
 import { useGlobalTime } from "./composables/use-global-time/useGlobalTime";
 import PersonalTrainingTable from "./components/personal-training-table/PersonalTrainingTable.vue";
+import ProductsTable from "./components/products-table/ProductsTable.vue";
 import moment from "moment";
 
 const { updateTableFields, updateTableCount } = useSubscriptionTable();
@@ -30,6 +31,9 @@ onMounted(async () => {
     </NTabPane>
     <NTabPane name="personal-trainings" tab="Персональные тренировки">
       <PersonalTrainingTable />
+    </NTabPane>
+    <NTabPane name="products" tab="Продукты">
+      <ProductsTable />
     </NTabPane>
   </NTabs>
 </template>

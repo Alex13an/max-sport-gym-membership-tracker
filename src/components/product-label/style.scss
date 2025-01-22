@@ -1,0 +1,9 @@
+.product-label {
+  display: flex;
+  justify-content: space-between;
+
+  &__button {
+    width: 22px;
+    height: 22px;
+  }
+}

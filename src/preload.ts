@@ -16,7 +16,22 @@ import {
   deleteSubscription,
   findSubscriptions,
 } from "./database/subscriptionsManager";
-import { getPersonalCount, getPersonal, addPersonal, deletePersonal } from './database/personalManager'
+import {
+  getPersonalCount,
+  getPersonal,
+  addPersonal,
+  deletePersonal,
+} from "./database/personalManager";
+import {
+  getProducts,
+  getSupply,
+  addProduct,
+  addSupply,
+  deleteProduct,
+  deleteSupply,
+  updateSupply,
+  getSupplyById,
+} from "./database/productsManager";
 
 contextBridge.exposeInMainWorld("sqlite", {
   readAllSubscriptions,
@@ -32,4 +47,12 @@ contextBridge.exposeInMainWorld("sqlite", {
   getPersonal,
   addPersonal,
   deletePersonal,
+  getProducts,
+  getSupply,
+  addProduct,
+  addSupply,
+  deleteProduct,
+  deleteSupply,
+  updateSupply,
+  getSupplyById,
 });
