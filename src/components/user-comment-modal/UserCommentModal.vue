@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { NInput, NButton } from "naive-ui";
+import { NInput, NButton, NCard, NIcon } from "naive-ui";
 import { useSubscriptionTable } from "../../composables/use-subscription-table/useSubscriptionTable";
 import { useCommentModal } from "./use-comment-modal";
+import { Close } from '@vicons/ionicons5'
 
 const { isModalVisible, closeModal, currentComment, currentUserId } =
   useCommentModal();
@@ -15,8 +16,10 @@ async function updateComment() {
 
 <template>
   <div class="comment-modal">
-    <div class="comment-modal__container" v-if="isModalVisible">
-      <button class="comment-modal__close" @click="closeModal">✕</button>
+    <NCard class="comment-modal__container" v-if="isModalVisible">
+      <button class="product-modal__close" @click="closeModal">
+        <NIcon size="20" color="white"><Close/></NIcon>
+      </button>
       <div class="comment-modal__wrapper">
         <span class="comment-modal__label"> Комментарий </span>
         <NInput
@@ -32,7 +35,7 @@ async function updateComment() {
       >
         Применить
       </NButton>
-    </div>
+    </NCard>
   </div>
 </template>
 

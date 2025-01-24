@@ -31,7 +31,8 @@ const productsTable = db.prepare(`
   CREATE TABLE IF NOT EXISTS products (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     label TEXT NOT NULL,
-    price NUMBER NO NULL
+    price NUMBER NO NULL,
+    current_amount NUMBER
   );
 `);
 productsTable.run();
@@ -45,3 +46,12 @@ const supplyTable = db.prepare(`
   );
 `);
 supplyTable.run();
+
+const passwordTable = db.prepare(`
+  CREATE TABLE IF NOT EXISTS password (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    pass TEXT NOT NULL,
+    is_admin NUMBER NOT NULL
+  );
+`);
+passwordTable.run();

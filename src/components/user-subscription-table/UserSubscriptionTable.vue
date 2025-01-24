@@ -6,10 +6,12 @@ import { useSubscriptionTable } from "../../composables/use-subscription-table/u
 import ExcelReader from "../excel-reader/ExcelReader.vue";
 import { computed } from "vue";
 import UserSubscriptionSearch from "../user-subscription-search/UserSubscriptionSearch.vue";
+import {useAuth} from "../../composables/use-auth/UseAuth";
 
 const { tableFields, paginateForward, paginateBack, firstId, lastId, count, searchValue } =
   useSubscriptionTable();
 const { toggleModal } = useModal();
+const { isFullAuth } = useAuth()
 
 const isBackEnabled = computed(
   () => Number(tableFields.value[0]?.key) < lastId.value
@@ -26,7 +28,7 @@ const isForwardEnabled = computed(
       <NButton type="success" @click="toggleModal">+</NButton>
       <h2>Абонементы</h2>
     </div>
-    <ExcelReader />
+    <ExcelReader v-if="isFullAuth" />
     <UserSubscriptionSearch />
     
     <NDataTable

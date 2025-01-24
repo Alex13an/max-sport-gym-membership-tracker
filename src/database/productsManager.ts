@@ -15,7 +15,7 @@ export const getProducts = () => {
 export const getSupply = () => {
   try {
     const query = `SELECT supply.id AS supply_id, product_id, amount, label, price AS single_price FROM supply
-      LEFT JOIN products ON products.id = supply.id`;
+      LEFT JOIN products ON products.id = supply.id WHERE amount > 0`;
     const readQuery = db.prepare(query);
     const rowList = readQuery.all();
     return rowList;
@@ -40,10 +40,11 @@ export const getSupplyById = (productId: number) => {
 export const addProduct = (
   label: string,
   price: number,
+  currentAmount: number
 ) => {
   try {
     const insertQuery = db.prepare(
-      `INSERT INTO products (label, price) VALUES ('${label}' , ${price})`
+      `INSERT INTO products (label, price, current_amount) VALUES ('${label}' , ${price}, ${currentAmount})`
     );
 
     let rowId: number | bigint = 0;
@@ -139,10 +140,48 @@ export const deleteSupply = (id: number) => {
   }
 };
 
+export const updateProduct = (id: number, amount: number) => {
+  try {
+    const query = db.prepare(
+      `UPDATE products SET current_amount = ${amount} WHERE id = ${id}`
+    );
+
+    const transaction = db.transaction(() => {
+      const info = query.run();
+      console.log(
+        `Updated ${info.changes} rows with last ID ${info.lastInsertRowid} into product`
+      );
+    });
+    transaction();
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
 export const updateSupply = (id: number, amount: number) => {
   try {
     const query = db.prepare(
       `UPDATE supply SET amount = ${amount} WHERE id = ${id}`
+    );
+
+    const transaction = db.transaction(() => {
+      const info = query.run();
+      console.log(
+        `Updated ${info.changes} rows with last ID ${info.lastInsertRowid} into supply`
+      );
+    });
+    transaction();
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+export const deleteAllSupply = () => {
+  try {
+    const query = db.prepare(
+      `UPDATE supply SET amount = 0`
     );
 
     const transaction = db.transaction(() => {

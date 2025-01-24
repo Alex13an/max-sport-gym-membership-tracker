@@ -1,0 +1,40 @@
+.add-product-modal {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+
+  &__container {
+    pointer-events: all;
+    padding: 10px 20px;
+    z-index: 10;
+    border: 1px solid rgb(224, 224, 230);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 300px;
+  }
+
+  &__close {
+    position: absolute;
+    right: 5px;
+    top: 15px;
+    z-index: 10;
+    background: none;
+    line-height: 0;
+    border: none;
+    cursor: pointer;
+  }
+
+  &__enter {
+    margin-top: 10px;
+  }
+}

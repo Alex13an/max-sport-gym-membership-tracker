@@ -2,12 +2,14 @@ export interface ProductsTableField {
   key: number | string
   label: string
   price: number
+  amount: number
 }
 
 export interface DBProductsTableField {
   id: number
   label: string
   price: number
+  current_amount: number
 }
 
 export interface SupplyTableField {

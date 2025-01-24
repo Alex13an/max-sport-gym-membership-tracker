@@ -23,6 +23,10 @@ function backward() {
 }
 
 async function addPersonalTraining() {
+  const areYouSure = confirm('Вы уверены?')
+  if (!areYouSure) {
+    return
+  }
   await addPersonal();
 }
 

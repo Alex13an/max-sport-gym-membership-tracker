@@ -30,8 +30,11 @@ import {
   deleteProduct,
   deleteSupply,
   updateSupply,
+  updateProduct,
   getSupplyById,
+  deleteAllSupply,
 } from "./database/productsManager";
+import { getPass, addPass, deletePass, editPass } from "./database/passManager";
 
 contextBridge.exposeInMainWorld("sqlite", {
   readAllSubscriptions,
@@ -54,5 +57,11 @@ contextBridge.exposeInMainWorld("sqlite", {
   deleteProduct,
   deleteSupply,
   updateSupply,
+  updateProduct,
+  deleteAllSupply,
   getSupplyById,
+  getPass,
+  addPass,
+  deletePass,
+  editPass,
 });

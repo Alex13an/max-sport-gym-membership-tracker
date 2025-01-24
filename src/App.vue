@@ -1,41 +1,19 @@
 <script setup>
-import { onMounted } from "vue";
-import { NTabs, NTabPane } from 'naive-ui'
-import { useSubscriptionTable } from "./composables/use-subscription-table/useSubscriptionTable";
-import UserSubscriptionTable from "./components/user-subscription-table/UserSubscriptionTable.vue";
-import UserCommentModal from "./components/user-comment-modal/UserCommentModal.vue";
-import UserSubscriptionModal from "./components/user-subscription-modal/UserSubscriptionModal.vue";
-import StatusModal from "./components/status-modal/StatusModal.vue";
-import { useGlobalTime } from "./composables/use-global-time/useGlobalTime";
-import PersonalTrainingTable from "./components/personal-training-table/PersonalTrainingTable.vue";
-import ProductsTable from "./components/products-table/ProductsTable.vue";
-import moment from "moment";
+import { NConfigProvider, NCard, darkTheme } from 'naive-ui'
+import Main from "./components/main/Main.vue";
+import {useAuth} from './composables/use-auth/UseAuth';
+import AuthModal from './components/auth-modal/AuthModal.vue';
 
-const { updateTableFields, updateTableCount } = useSubscriptionTable();
-useGlobalTime()
-
-onMounted(async () => {
-  moment.locale('ru')
-  await updateTableCount()
-  await updateTableFields();
-});
+const { isAuth, isFullAuth } = useAuth()
 </script>
 
 <template>
-  <NTabs class="tabs" type="line" animated>
-    <NTabPane name="subscriptions" tab="Абонементы">
-      <UserSubscriptionTable />
-      <UserSubscriptionModal />
-      <UserCommentModal />
-      <StatusModal />
-    </NTabPane>
-    <NTabPane name="personal-trainings" tab="Персональные тренировки">
-      <PersonalTrainingTable />
-    </NTabPane>
-    <NTabPane name="products" tab="Продукты">
-      <ProductsTable />
-    </NTabPane>
-  </NTabs>
+  <NConfigProvider :theme="darkTheme">
+    <NCard class="wrapper">
+      <AuthModal v-if="!isAuth" />
+      <Main v-if="isAuth || isFullAuth" />
+    </NCard>
+  </NConfigProvider>
 </template>
 
 <style lang="scss" src="./index.scss" />

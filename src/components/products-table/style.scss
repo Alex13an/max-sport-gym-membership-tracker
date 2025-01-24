@@ -16,4 +16,10 @@
   &__action {
     width: 30px;
   }
+
+  &__clear {
+    position: absolute;
+    right: 0;
+    top: 15px;
+  }
 }

@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { NButton } from "naive-ui";
+import { NButton, NCard, NIcon } from "naive-ui";
 import { useStatusModal } from "./use-status-modal";
 import { useSubscriptionTable } from "../../composables/use-subscription-table/useSubscriptionTable";
 import { dateNowInjectionKey } from "../../composables/use-global-time/types";
 import { computed, inject } from "vue";
+import { Close } from '@vicons/ionicons5'
 import moment from "moment";
 
 const {
@@ -56,8 +57,10 @@ const remainingTime = computed(() => {
 
 <template>
   <div class="status-modal">
-    <div class="status-modal__container" v-if="isModalVisible">
-      <button class="status-modal__close" @click="closeModal">✕</button>
+    <NCard class="status-modal__container" v-if="isModalVisible">
+      <button class="status-modal__close" @click="closeModal">
+        <NIcon size="20" color="white"><Close /></NIcon>
+      </button>
       <div class="status-modal__wrapper">
         <h4 class="status-modal__title">Продлить абонемент</h4>
         <span>{{ `${currentUserName}?` }}</span>
@@ -74,7 +77,7 @@ const remainingTime = computed(() => {
       >
         Продлить абонемент
       </NButton>
-    </div>
+    </NCard>
   </div>
 </template>
 

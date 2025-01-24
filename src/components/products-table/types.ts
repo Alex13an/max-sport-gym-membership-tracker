@@ -15,8 +15,13 @@ export const productsTableColumns: DataTableColumns<ProductsTableField> = [
       return h(ProductLabel, {
         productId: row.key,
         label: row.label,
+        amount: row.amount,
       });
     },
+  },
+  {
+    title: "Текущее количество",
+    key: "amount",
   },
   {
     title: "Цена",
@@ -29,6 +34,7 @@ export const productsTableColumns: DataTableColumns<ProductsTableField> = [
     render(row) {
       return h(AddProductToSupply, {
         productId: row.key,
+        current_amount: row.amount,
       });
     },
   },
@@ -42,10 +48,6 @@ export const supplyTableColumns: DataTableColumns<SupplyTableField> = [
   {
     title: "Количество",
     key: "amount",
-  },
-  {
-    title: "Продано",
-    key: "sold",
   },
   {
     title: "Цена",

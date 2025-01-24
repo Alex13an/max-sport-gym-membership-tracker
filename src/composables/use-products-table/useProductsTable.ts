@@ -18,14 +18,15 @@ export function useProductsTable() {
         key: product.id,
         label: product.label,
         price: product.price,
+        amount: product.current_amount || 0,
       })),
     ];
   }
 
   async function updateSupplyTableFields() {
     const data: DBSupplyTableField[] = await window.sqlite.getSupply();
+    console.log('DATA', data)
 
-    console.log("DATA", data);
     supplyTableFields.value = [
       ...data.map((product) => ({
         key: product.id,
@@ -37,13 +38,23 @@ export function useProductsTable() {
     ];
   }
 
-  async function addProduct(label: string, price: number) {
-    await window.sqlite.addProduct(label, price);
+  async function addProduct(label: string, price: number, amount: number) {
+    await window.sqlite.addProduct(label, price, amount);
     await updateProductsTableFields();
   }
 
-  async function addSupply(productId: number, amount: number) {
+  async function addProductAmount(productId: number, amount: number) {
+    await window.sqlite.updateProduct(productId, amount);
+    await updateProductsTableFields();
+  }
+
+  async function addSupply(
+    productId: number,
+    amount: number,
+    currentAmount: number
+  ) {
     const existingSupply = await window.sqlite.getSupplyById(productId);
+    await window.sqlite.updateProduct(productId, currentAmount - 1);
     if (existingSupply.length) {
       await window.sqlite.updateSupply(
         existingSupply[0].id,
@@ -53,10 +64,23 @@ export function useProductsTable() {
       await window.sqlite.addSupply(productId, amount);
     }
     await updateSupplyTableFields();
+    await updateProductsTableFields();
   }
 
   async function deleteProduct(id: number) {
     await window.sqlite.deleteProduct(id);
+    await updateProductsTableFields();
+    await updateSupplyTableFields();
+  }
+
+  async function deleteAllSupply() {
+    const areYouSure = confirm(
+      `Вы точно хотите удалить все текущие продукты?`
+    );
+    if (!areYouSure) {
+      return;
+    }
+    await window.sqlite.deleteAllSupply();
     await updateProductsTableFields();
     await updateSupplyTableFields();
   }
@@ -69,5 +93,7 @@ export function useProductsTable() {
     addProduct,
     addSupply,
     deleteProduct,
+    deleteAllSupply,
+    addProductAmount,
   };
 }

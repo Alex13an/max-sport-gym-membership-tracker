@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import {useAuth} from "../../composables/use-auth/UseAuth";
 import { useSubscriptionTable } from "../../composables/use-subscription-table/useSubscriptionTable";
 import { NButton } from "naive-ui";
 
@@ -8,6 +9,7 @@ const props = defineProps<{
 }>();
 
 const { deleteUserFromTable } = useSubscriptionTable();
+const { isFullAuth } = useAuth()
 async function deleteUser() {
   const areYouSure = confirm(`Вы точно хотите удалить абонемент ${props.userName}?`)
   if (!areYouSure) {
@@ -20,7 +22,7 @@ async function deleteUser() {
 <template>
   <div class="user-name">
     {{ userName }}
-    <NButton class="user-name__button" type="error" size="tiny" @click="deleteUser">x</NButton>
+    <NButton v-if="isFullAuth" class="user-name__button" type="error" size="tiny" @click="deleteUser">x</NButton>
   </div>
 </template>
 
